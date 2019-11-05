@@ -46,7 +46,6 @@ public class PiViewer {
         myStartFromDigitTextField.setHorizontalAlignment(JTextField.RIGHT);
         myBottomPanel.add(myStartFromDigitTextField);
 
-
         SpinnerModel model = new SpinnerNumberModel(0, 0, 100, 1);
         mySpinner = new JSpinner(model);
         mySpinner.setEditor(new JSpinner.NumberEditor(mySpinner));
@@ -150,8 +149,10 @@ public class PiViewer {
             for (int j = 0; j < DEFAULT_WIDTH; j++)
                 bufferedImage.setRGB(i, j, data[i * j]);
         Graphics g = myImagePanel.getGraphics();
-        g.drawImage(bufferedImage.getScaledInstance(myImagePanel.getWidth(), myImagePanel.getHeight(),
-                Image.SCALE_FAST), 0, 0, null);
+        Image img = bufferedImage.getScaledInstance(myImagePanel.getWidth(), myImagePanel.getHeight(),
+                Image.SCALE_FAST);
+        g.drawImage(img, 0, 0, null);
+        myImagePanel.setImage(img);
     }
 
     public static void main(String[] args) {

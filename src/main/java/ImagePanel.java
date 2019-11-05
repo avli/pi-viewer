@@ -5,7 +5,12 @@ import java.util.List;
 
 public class ImagePanel extends JPanel implements Observable {
 
-    final List<Observer> observers = new ArrayList<>();
+    private final List<Observer> observers = new ArrayList<>();
+    private Image myImage;
+
+    public void setImage(Image myImage) {
+        this.myImage = myImage;
+    }
 
     public void attach(Observer observer) {
         observers.add(observer);
@@ -20,8 +25,13 @@ public class ImagePanel extends JPanel implements Observable {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        if (myImage != null)
+            g.drawImage(myImage.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST), 0, 0,
+                    null);
         notifyAllObservers();
     }
+
+
 
     //    @Override
 //    protected void paintComponent(Graphics g) {
