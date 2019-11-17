@@ -40,9 +40,9 @@ public class PiReader {
         }
     }
 
-    public int[] getData(int offset, int len) {
+    public int[] getData(int offset, int len) throws IndexOutOfBoundsException {
         if (myRgbBuffer.size() - offset < len) {
-            throw new RuntimeException("Not enough data: pi values buffer contains " + myRgbBuffer.size() / 8 +
+            throw new IndexOutOfBoundsException("Not enough data: pi values buffer contains " + myRgbBuffer.size() +
                     " points, " + len + " requested with offset " + offset + ".");
         }
         int[] data = new int[len];

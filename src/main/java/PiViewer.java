@@ -175,8 +175,14 @@ public class PiViewer {
             JOptionPane.showMessageDialog(new JFrame(), msg, null, JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        int[] data = piReader.getData(offset, myImageSizePanel.getImageWidth() * myImageSizePanel.getImageHeight());
+        int[] data;
+        try {
+            data = piReader.getData(offset, myImageSizePanel.getImageWidth() * myImageSizePanel.getImageHeight());
+        }
+        catch (IndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), null, JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         BufferedImage bufferedImage = new BufferedImage(myImageSizePanel.getImageWidth(),
                 myImageSizePanel.getImageHeight(),
                 BufferedImage.TYPE_INT_RGB);
