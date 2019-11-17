@@ -22,4 +22,8 @@ compileJava {
     options.forkOptions.executable = 'javac'
 }
 
+if (System.getProperty("os.name") != "Mac OS X") {
+    sourceSets.main.java.exclude "MacOsAboutMenuInitializer.java"
+}
+
 mainClassName = 'PiViewer'
