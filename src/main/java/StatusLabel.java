@@ -10,7 +10,7 @@ public class StatusLabel<T extends JPanel & Observable> extends JLabel implement
     }
 
     private void updateText(int width, int height) {
-        setText("Image size: " + width + " x " + height);
+        setText("Image window size: " + width + " x " + height);
     }
 
     @Override
