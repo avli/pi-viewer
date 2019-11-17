@@ -1,3 +1,6 @@
+import com.apple.eawt.AboutHandler;
+import com.apple.eawt.AppEvent;
+
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
@@ -6,9 +9,11 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
-import com.apple.eawt.*;
+//import com.apple.eawt.*;
 
 public class PiViewer {
     public static String NAME = "PiViewer";
@@ -197,14 +202,20 @@ public class PiViewer {
     }
 
     public static void main(String[] args) {
-        Application macApplication = Application.getApplication();
-        macApplication.setAboutHandler(new AboutHandler() {
-            @Override
-            public void handleAbout(AppEvent.AboutEvent aboutEvent) {
-                AboutDialog aboutDialog = new AboutDialog();
-                aboutDialog.setVisible(true);
+        if (System.getProperty("os.name").equals("Mac OS X")) {
+            try {
+                Method m = Class.forName("MacOsAboutMenuInitializer").getMethod("initalizeAboutMenu");
+                m.invoke(null);
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
-        });
+        }
         SwingUtilities.invokeLater(PiViewer::new);
     }
 }
