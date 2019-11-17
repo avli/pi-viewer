@@ -6,12 +6,16 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 import com.apple.eawt.*;
 
 public class PiViewer {
-    private static int DEFAULT_WIDTH = 320;
-    private static int DEFAULT_HEIGHT = 320;
+    public static String NAME = "PiViewer";
+    private static int VERSION_MAJOR = 0;
+    private static int VERSION_MINOR = 1;
+    private static int VERSION_PATCH = 0;
+
     private static String PI_FILE_NAME = "pi1000000.txt";
 
     private final JFrame myFrame = new JFrame("PiViewer");
@@ -25,6 +29,7 @@ public class PiViewer {
     private final JMenu myHelpMenu = new JMenu("Help");
 //    private final JPanel myStatusPanel = new JPanel();
     private StatusLabel<ImagePanel> myStatus;
+    private ImageSizePanel myImageSizePanel = new ImageSizePanel();
 
     private final PiReader piReader;
 
@@ -34,16 +39,28 @@ public class PiViewer {
         createAndShowGUI();
     }
 
+    public static String getVersion() {
+        StringBuilder sb = new StringBuilder();
+        final java.util.List<Integer> versionList = Arrays.asList(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
+        for(Integer i : versionList) {
+            sb.append(i);
+            sb.append('.');
+        }
+        sb.delete(sb.length() - 1, sb.length());
+        return sb.toString();
+    }
+
     private void createAndShowGUI() {
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Image panel
-        myImagePanel.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        myImagePanel.setPreferredSize(new Dimension(320, 320));
 
         // Bottom panel
-        myBottomPanel.setLayout(new FlowLayout());
+        myBottomPanel.setLayout(new GridBagLayout());
         myBottomPanel.add(myStartFromDigitLabel);
         myStartFromDigitTextField.setHorizontalAlignment(JTextField.RIGHT);
+        myStartFromDigitTextField.setText("0");
         myBottomPanel.add(myStartFromDigitTextField);
 
         SpinnerModel model = new SpinnerNumberModel(0, 0, 100, 1);
@@ -52,7 +69,15 @@ public class PiViewer {
         JFormattedTextField txt = ((JSpinner.NumberEditor) mySpinner.getEditor()).getTextField();
         ((NumberFormatter) txt.getFormatter()).setAllowsInvalid(false);
 
-        myBottomPanel.add(mySpinner);
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 0;
+        c.gridy = 1;
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        c.gridwidth = 3;
+        c.fill = GridBagConstraints.BOTH;
+
+//        myBottomPanel.add(mySpinner, c);
+        myBottomPanel.add(myImageSizePanel, c);
         mySpinner.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -141,13 +166,23 @@ public class PiViewer {
     }
 
     private void redrawImage() {
-        int offset = Integer.parseInt(myStartFromDigitTextField.getText());
-        int[] data = piReader.getData(offset, DEFAULT_WIDTH * DEFAULT_HEIGHT);
-        BufferedImage bufferedImage = new BufferedImage(DEFAULT_WIDTH, DEFAULT_HEIGHT,
+        int offset;
+        try {
+            offset = Integer.parseInt(myStartFromDigitTextField.getText());
+        }
+        catch (NumberFormatException e) {
+            String msg = "Value \"" + myStartFromDigitTextField.getText() + "\" is invalid.";
+            JOptionPane.showMessageDialog(new JFrame(), msg, null, JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int[] data = piReader.getData(offset, myImageSizePanel.getImageWidth() * myImageSizePanel.getImageHeight());
+        BufferedImage bufferedImage = new BufferedImage(myImageSizePanel.getImageWidth(),
+                myImageSizePanel.getImageHeight(),
                 BufferedImage.TYPE_INT_RGB);
-        for (int i = 0; i < DEFAULT_HEIGHT; i++)
-            for (int j = 0; j < DEFAULT_WIDTH; j++)
-                bufferedImage.setRGB(i, j, data[i * j]);
+        for (int i = 0; i < myImageSizePanel.getImageHeight(); i++)
+            for (int j = 0; j < myImageSizePanel.getImageWidth(); j++)
+                bufferedImage.setRGB(j, i, data[i * j]);
         Graphics g = myImagePanel.getGraphics();
         Image img = bufferedImage.getScaledInstance(myImagePanel.getWidth(), myImagePanel.getHeight(),
                 Image.SCALE_FAST);
@@ -160,11 +195,7 @@ public class PiViewer {
         macApplication.setAboutHandler(new AboutHandler() {
             @Override
             public void handleAbout(AppEvent.AboutEvent aboutEvent) {
-                JDialog aboutDialog = new JDialog();
-                aboutDialog.setTitle("About");
-                aboutDialog.add(new JLabel("PiViewer"), BorderLayout.CENTER);
-                aboutDialog.setSize(150, 150);
-                aboutDialog.setResizable(false);
+                AboutDialog aboutDialog = new AboutDialog();
                 aboutDialog.setVisible(true);
             }
         });
