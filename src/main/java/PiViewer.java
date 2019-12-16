@@ -183,7 +183,7 @@ public class PiViewer {
         try {
             data = piReader.getData(offset, myImageSizePanel.getImageWidth() * myImageSizePanel.getImageHeight());
         }
-        catch (IndexOutOfBoundsException | IOException e) {
+        catch (IndexOutOfBoundsException | IOException | IllegalArgumentException e) {
             JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), null, JOptionPane.ERROR_MESSAGE);
             return;
         }
