@@ -1,3 +1,5 @@
+package pireader;
+
 import java.io.IOException;
 
 public interface PiReader {

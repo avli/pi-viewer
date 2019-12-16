@@ -1,3 +1,5 @@
+import pireader.PiFromDiskReader;
+
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
@@ -34,11 +36,11 @@ public class PiViewer {
     private StatusLabel<ImagePanel> myStatus;
     private ImageSizePanel myImageSizePanel = new ImageSizePanel();
 
-//    private final PiInMemoryReader piReader;
+//    private final pireader.PiInMemoryReader piReader;
     private final PiFromDiskReader piReader;
 
     public PiViewer() {
-//        piReader = new PiInMemoryReader(getClass().getResource(PI_FILE_NAME));
+//        piReader = new pireader.PiInMemoryReader(getClass().getResource(PI_FILE_NAME));
         piReader = new PiFromDiskReader(getClass().getResource(PI_FILE_NAME));
         createAndShowGUI();
     }
