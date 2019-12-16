@@ -8,16 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PiReader {
+public class PiMemoryReader implements PiReadStrategy {
 
     private final String myFilePath;
     private final List<Integer> myRgbBuffer = new ArrayList<>();
 
-    public PiReader(URL fileURI) {
+    public PiMemoryReader(URL fileURI) {
         this(fileURI.getPath());
     }
 
-    public PiReader(String filePath) {
+    public PiMemoryReader(String filePath) {
         Objects.requireNonNull(filePath);
         myFilePath = filePath;
     }
@@ -41,6 +41,7 @@ public class PiReader {
     }
 
     public int[] getData(int offset, int len) throws IndexOutOfBoundsException {
+        loadPi();
         if (myRgbBuffer.size() - offset < len) {
             throw new IndexOutOfBoundsException("Not enough data: pi values buffer contains " + myRgbBuffer.size() +
                     " points, " + len + " requested with offset " + offset + ".");

@@ -1,6 +1,3 @@
-import com.apple.eawt.AboutHandler;
-import com.apple.eawt.AppEvent;
-
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
@@ -36,11 +33,10 @@ public class PiViewer {
     private StatusLabel<ImagePanel> myStatus;
     private ImageSizePanel myImageSizePanel = new ImageSizePanel();
 
-    private final PiReader piReader;
+    private final PiMemoryReader piReader;
 
     public PiViewer() {
-        piReader = new PiReader(getClass().getResource(PI_FILE_NAME));
-        piReader.loadPi();
+        piReader = new PiMemoryReader(getClass().getResource(PI_FILE_NAME));
         createAndShowGUI();
     }
 
