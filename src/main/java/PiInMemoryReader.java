@@ -6,23 +6,26 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class PiMemoryReader implements PiReadStrategy {
 
-    private final String myFilePath;
+/**
+ * For small files. Stores the pi digits in memory.
+ */
+public class PiInMemoryReader extends PiFileReader {
+
+    public final static String ID = "In memory reader";
+
     private final List<Integer> myRgbBuffer = new ArrayList<>();
 
-    public PiMemoryReader(URL fileURI) {
-        this(fileURI.getPath());
+    public PiInMemoryReader(String filePath) {
+        super(filePath);
     }
 
-    public PiMemoryReader(String filePath) {
-        Objects.requireNonNull(filePath);
-        myFilePath = filePath;
+    public PiInMemoryReader(URL fileURI) {
+        super(fileURI);
     }
 
-    public void loadPi() {
+    private void loadPi() {
         try (final BufferedReader br = Files.newBufferedReader(Paths.get(myFilePath))) {
             br.skip(2); // Skip "3."
             char[] cbuf = new char[8];

@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -33,10 +34,12 @@ public class PiViewer {
     private StatusLabel<ImagePanel> myStatus;
     private ImageSizePanel myImageSizePanel = new ImageSizePanel();
 
-    private final PiMemoryReader piReader;
+//    private final PiInMemoryReader piReader;
+    private final PiFromDiskReader piReader;
 
     public PiViewer() {
-        piReader = new PiMemoryReader(getClass().getResource(PI_FILE_NAME));
+//        piReader = new PiInMemoryReader(getClass().getResource(PI_FILE_NAME));
+        piReader = new PiFromDiskReader(getClass().getResource(PI_FILE_NAME));
         createAndShowGUI();
     }
 
@@ -180,7 +183,7 @@ public class PiViewer {
         try {
             data = piReader.getData(offset, myImageSizePanel.getImageWidth() * myImageSizePanel.getImageHeight());
         }
-        catch (IndexOutOfBoundsException e) {
+        catch (IndexOutOfBoundsException | IOException e) {
             JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), null, JOptionPane.ERROR_MESSAGE);
             return;
         }
