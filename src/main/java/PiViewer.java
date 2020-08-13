@@ -174,13 +174,8 @@ public class PiViewer {
             try {
                 Method m = Class.forName("MacOsAboutMenuInitializer").getMethod("initalizeAboutMenu");
                 m.invoke(null);
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException
+                    | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
