@@ -14,9 +14,9 @@ import java.util.Arrays;
 
 public class PiViewer {
     public static String NAME = "PiViewer";
-    private static int VERSION_MAJOR = 0;
-    private static int VERSION_MINOR = 1;
-    private static int VERSION_PATCH = 0;
+    private static final int VERSION_MAJOR = 0;
+    private static final int VERSION_MINOR = 1;
+    private static final int VERSION_PATCH = 0;
 
     private static String PI_FILE_NAME = "pi1000000.txt";
 
