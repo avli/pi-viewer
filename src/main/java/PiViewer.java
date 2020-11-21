@@ -31,7 +31,7 @@ public class PiViewer {
     private final JMenu myHelpMenu = new JMenu("Help");
 //    private final JPanel myStatusPanel = new JPanel();
     private StatusLabel<ImagePanel> myStatus;
-    private ImageSizePanel myImageSizePanel = new ImageSizePanel();
+    private final ImageSizePanel myImageSizePanel = new ImageSizePanel();
 
 //    private final pireader.PiInMemoryReader piReader;
     private final PiFromDiskReader piReader;
