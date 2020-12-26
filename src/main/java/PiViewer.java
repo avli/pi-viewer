@@ -123,7 +123,7 @@ public class PiViewer {
         myMenuBar.add(Box.createHorizontalGlue());
         myMenuBar.add(myHelpMenu);
         myMenuBar.setAlignmentX(JMenuBar.RIGHT_ALIGNMENT);
-        if (!System.getProperty("os.name").equals("Mac OS X")) {
+        if (!isMacOS()) {
             JMenuItem aboutMenuItem = new JMenuItem("About");
             myHelpMenu.add(aboutMenuItem);
         } else {
@@ -138,7 +138,11 @@ public class PiViewer {
             }
         }
 
-        myFrame.setJMenuBar(myMenuBar);
+        if (isMacOS()) {
+            Desktop.getDesktop().setDefaultMenuBar(myMenuBar);
+        } else {
+            myFrame.setJMenuBar(myMenuBar);
+        }
 
         // Add status bar
         myStatus = new StatusLabel<>(myImagePanel);
@@ -180,6 +184,10 @@ public class PiViewer {
                 Image.SCALE_FAST);
         g.drawImage(img, 0, 0, null);
         myImagePanel.setImage(img);
+    }
+
+    private static boolean isMacOS() {
+        return System.getProperty("os.name").equals("Mac OS X");
     }
 
     public static void main(String[] args) {
