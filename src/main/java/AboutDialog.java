@@ -37,8 +37,12 @@ public class AboutDialog extends JDialog {
         c.gridx = 0;
         c.gridy = 2;
         c.insets = new Insets(0, 250, 0, 0);
-        add(new JButton("Button 1"), c);
 
+        JButton closeButton = new JButton("Close");
+        closeButton.addActionListener(e -> setVisible(false));
+        add(closeButton, c);
+
+        setLocationRelativeTo(null);
 
 //        setSize(WIDTH, HEIGHT);
         pack();
