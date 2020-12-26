@@ -3,13 +3,13 @@ import java.awt.*;
 
 public class ImageSizePanel extends JPanel {
 
-    private static int DEFAULT_WIDTH = 320;
-    private static int DEFAULT_HEIGHT = 320;
+    private static final int DEFAULT_WIDTH = 320;
+    private static final int DEFAULT_HEIGHT = 320;
 
     private final JLabel myWidthLabel = new JLabel("Width: ");
     private final JLabel myHeightLabel = new JLabel("Height: ");
-    private JTextField myWidthTextField = new JTextField(10);
-    private JTextField myHeightTextField = new JTextField(10);
+    private final JTextField myWidthTextField = new JTextField(10);
+    private final JTextField myHeightTextField = new JTextField(10);
 
     public ImageSizePanel() {
         super();
