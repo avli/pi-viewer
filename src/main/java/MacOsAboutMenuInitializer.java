@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class MacOsAboutMenuInitializer {
-    public static void initalizeAboutMenu() {
+    public static void initializeAboutMenu() {
         // See: https://alvinalexander.com/source-code/java-macos-about-preferences-quit-handlers-desktop-awt/
         Desktop desktop = Desktop.getDesktop();
         desktop.setAboutHandler(aboutEvent -> {

@@ -127,7 +127,7 @@ public class PiViewer {
         } else {
             if (System.getProperty("os.name").equals("Mac OS X")) {
                 try {
-                    Method m = Class.forName("MacOsAboutMenuInitializer").getMethod("initalizeAboutMenu");
+                    Method m = Class.forName("MacOsAboutMenuInitializer").getMethod("initializeAboutMenu");
                     m.invoke(null);
                 } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException
                         | ClassNotFoundException e) {

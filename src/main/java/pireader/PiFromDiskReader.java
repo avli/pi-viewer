@@ -42,7 +42,7 @@ public class PiFromDiskReader extends PiFileReader {
         br.mark(0);
         br.reset();
         br.skip(2); // Skip "3."
-        long bytesToSkip = 8 * offset;
+        long bytesToSkip = 8L * offset;
         long actuallySkipped = br.skip(bytesToSkip);
         if (actuallySkipped < bytesToSkip)
             throw new IllegalArgumentException("Not enough data: file contains " + actuallySkipped +
