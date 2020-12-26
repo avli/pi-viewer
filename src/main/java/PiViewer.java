@@ -10,15 +10,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-//import com.apple.eawt.*;
-
 public class PiViewer {
-    public static String NAME = "PiViewer";
+    public static final String NAME = "PiViewer";
     private static final int VERSION_MAJOR = 0;
     private static final int VERSION_MINOR = 1;
     private static final int VERSION_PATCH = 0;
 
-    private static String PI_FILE_NAME = "pi1000000.txt";
+    private static final String PI_FILE_NAME = "pi1000000.txt";
 
     private final JFrame myFrame = new JFrame("PiViewer");
     private final ImagePanel myImagePanel = new ImagePanel();
