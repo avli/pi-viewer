@@ -123,12 +123,25 @@ public class PiViewer {
         myMenuBar.add(Box.createHorizontalGlue());
         myMenuBar.add(myHelpMenu);
         myMenuBar.setAlignmentX(JMenuBar.RIGHT_ALIGNMENT);
-        JMenuItem aboutMenuItem = new JMenuItem("About");
-        myHelpMenu.add(aboutMenuItem);
+        if (!System.getProperty("os.name").equals("Mac OS X")) {
+            JMenuItem aboutMenuItem = new JMenuItem("About");
+            myHelpMenu.add(aboutMenuItem);
+        } else {
+            if (System.getProperty("os.name").equals("Mac OS X")) {
+                try {
+                    Method m = Class.forName("MacOsAboutMenuInitializer").getMethod("initalizeAboutMenu");
+                    m.invoke(null);
+                } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException
+                        | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         myFrame.setJMenuBar(myMenuBar);
 
         // Add status bar
-        myStatus = new StatusLabel<ImagePanel>(myImagePanel);
+        myStatus = new StatusLabel<>(myImagePanel);
         myImagePanel.attach(myStatus);
         myFrame.add(myStatus, BorderLayout.NORTH);
 
@@ -170,15 +183,6 @@ public class PiViewer {
     }
 
     public static void main(String[] args) {
-        if (System.getProperty("os.name").equals("Mac OS X")) {
-            try {
-                Method m = Class.forName("MacOsAboutMenuInitializer").getMethod("initalizeAboutMenu");
-                m.invoke(null);
-            } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException
-                    | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
         SwingUtilities.invokeLater(PiViewer::new);
     }
 }
